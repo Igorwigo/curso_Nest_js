@@ -5,35 +5,33 @@ import { CoursesService } from './courses.service';
 export class CoursesController {
   constructor(private readonly coursesService: CoursesService){}
 
-
-
   @Get()
-  findAll(@Res() response) {
-    return response.status(200).send('Todos os cursos');
+  findAll() {
+    return this.coursesService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') params: string) { 
+  findOne(@Param('id') id: string) { 
     //const a = params.id;
-    return {'Curso':`${params}`};
+    return this.coursesService.findOne(id);
   }
 
   @Post()
-  @HttpCode(HttpStatus.NO_CONTENT)//retorno 204, significa que foi feito mas nao tem nada para lhe retornar
+  //@HttpCode(HttpStatus.NO_CONTENT)//retorno 204, significa que foi feito mas nao tem nada para lhe retornar
   createCourse(@Body() body) {
-    return body
+    return this.coursesService.createCourse(body);
   }
 
   //método de atualização de informação
   @Patch(':id')
-  updateCourse(@Param('id') param, @Body() body) {
-    console.log(body)
-    return  `Curso com ID: ${param} atualizado com sucesso! e Título: ${body.Name}`;
+  updateCourse(@Param('id') id, @Body() body) {
+    //console.log(body)
+    return  this.coursesService.updateCourse(id,body);
   }
 
   @Delete(':id')
   delete(@Param('id') id){
-    return `Curso com ID: ${id} deletado com sucesso!`
+    return this.coursesService.removeCourse(id);
   }
 
 }
